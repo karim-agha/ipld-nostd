@@ -1,7 +1,6 @@
 use {
-	crate::{alloc::string::ToString, cid, ipld_serde, multihash},
+	crate::{alloc::string::ToString, cid, dag, multihash},
 	alloc::string::String,
-	core2::io,
 	thiserror_core2::Error,
 };
 
@@ -15,7 +14,7 @@ pub enum Error {
 	#[error("Io error: {0}")]
 	Io(#[from] core2::io::Error),
 	#[error("Cbor encoding error: {0}")]
-	Cbor(#[from] ipld_serde::error::CodecError),
+	Cbor(#[from] dag::error::CodecError),
 	#[error("ld read too large {0}")]
 	LdReadTooLarge(usize),
 }

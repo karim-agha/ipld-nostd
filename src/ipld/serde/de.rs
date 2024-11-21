@@ -1,5 +1,5 @@
 use {
-	super::super::{ipld::Ipld, serde::SerdeError},
+	super::super::{serde::SerdeError, Ipld},
 	crate::cid::{
 		serde::{BytesToCidVisitor, CID_SERDE_PRIVATE_IDENTIFIER},
 		Cid,

@@ -261,7 +261,6 @@ dependencies = [
  "serde_test",
  "test-strategy",
  "thiserror_core2",
- "unsigned-varint",
 ]
 
 [[package]]

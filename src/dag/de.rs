@@ -50,40 +50,6 @@ where
 	Ok(value)
 }
 
-/// Decodes a value from CBOR data in a reader.
-///
-/// # Examples
-///
-/// Deserialize a `String`
-///
-/// ```
-/// # use ipld_serde::de;
-/// let v: Vec<u8> = vec![0x66, 0x66, 0x6f, 0x6f, 0x62, 0x61, 0x72];
-/// let value: String = de::from_reader(&v[..]).unwrap();
-/// assert_eq!(value, "foobar");
-/// ```
-///
-/// Note that `from_reader` cannot borrow data:
-///
-/// ```compile_fail
-/// # use ipld_serde::de;
-/// let v: Vec<u8> = vec![0x66, 0x66, 0x6f, 0x6f, 0x62, 0x61, 0x72];
-/// let value: &str = de::from_reader(&v[..]).unwrap();
-/// assert_eq!(value, "foobar");
-/// ```
-#[cfg(feature = "std")]
-pub fn from_reader<T, R>(reader: R) -> Result<T, DecodeError<std::io::Error>>
-where
-	T: de::DeserializeOwned,
-	R: std::io::BufRead,
-{
-	let reader = IoReader::new(reader);
-	let mut deserializer = Deserializer::from_reader(reader);
-	let value = serde::Deserialize::deserialize(&mut deserializer)?;
-	deserializer.end()?;
-	Ok(value)
-}
-
 /// A Serde `Deserialize`r of DAG-CBOR data.
 #[derive(Debug)]
 pub struct Deserializer<R> {

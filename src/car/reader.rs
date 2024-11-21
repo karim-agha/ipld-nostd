@@ -79,6 +79,7 @@ mod tests {
 		itertools::Itertools,
 	};
 
+	#[test]
 	fn car_write_read() {
 		let digest_test =
 			Multihash::wrap(0x1e, blake3::hash(b"test").as_bytes()).unwrap();

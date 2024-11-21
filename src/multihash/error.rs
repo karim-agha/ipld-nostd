@@ -47,16 +47,6 @@ enum Kind {
 	Varint(decode::Error),
 }
 
-pub(crate) fn varint_to_multihash_error(err: varint::ReadError) -> Error {
-	match err {
-		varint::ReadError::Io(err) => io_to_multihash_error(err),
-		varint::ReadError::Decode(err) => Error {
-			kind: Kind::Varint(err),
-		},
-		other => io_to_multihash_error(io::Error::new(io::ErrorKind::Other, other)),
-	}
-}
-
 pub(crate) fn varint_decode_to_multihash_error(
 	err: varint::decode::Error,
 ) -> Error {

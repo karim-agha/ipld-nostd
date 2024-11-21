@@ -1,6 +1,6 @@
 //! Conversion to and from ipld.
 use {
-	super::ipld::{Ipld, IpldKind},
+	super::{Ipld, IpldKind},
 	crate::cid::Cid,
 	alloc::{
 		borrow::ToOwned,
@@ -211,7 +211,7 @@ derive_try_from_ipld_option!(Link, Cid);
 #[cfg(test)]
 mod tests {
 	use {
-		super::super::ipld::Ipld,
+		super::super::Ipld,
 		crate::cid::Cid,
 		::alloc::{collections::BTreeMap, string::String, vec::Vec, *},
 	};

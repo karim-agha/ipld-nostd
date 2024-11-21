@@ -81,7 +81,7 @@ mod tests {
 
     use super::*;
     use alloc::vec;
-    use core2::io::{Read, Write};
+    use core2::io::Write;
 
     fn ld_write<'a, W>(writer: &mut W, bytes: &[u8]) -> Result<(), Error>
     where

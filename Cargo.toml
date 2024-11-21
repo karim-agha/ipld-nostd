@@ -7,6 +7,8 @@ authors = [
   "dignifiedquire <me@dignifiedquire.com>",
   "David Craven <david@craven.ch>",
   "Volker Mische <volker.mische@gmail.com>",
+  "Pyfisch <pyfisch@posteo.org>",
+  "Steven Fackler <sfackler@gmail.com>",
 ]
 license = "Apache-2.0/MIT"
 rust-version = "1.70.0"
@@ -19,10 +21,11 @@ default = []
 no-cid-as-bytes = []
 
 [dependencies]
-core2 = { version = "0.4", features = ["alloc"] }
+core2 = { version = "0.4", features = ["alloc"], default-features = false }
 serde = { version = "1.0", features = ["derive"], default-features = false }
-serde_bytes = { version = "0.11.15" }
-unsigned-varint = { version = "0.8", default-features = false }
+serde_bytes = { version = "0.11.15", features = [
+  "alloc",
+], default-features = false }
 thiserror_core2 = "2.0.1"
 scale = { version = "3.6", features = [
   "derive",
@@ -33,11 +36,11 @@ base256emoji = { version = "1.0.2", default-features = false }
 data-encoding = { version = "2.3.1", default-features = false, features = [
   "alloc",
 ] }
-data-encoding-macro = "0.1.9"
+data-encoding-macro = { version = "0.1.9", default-features = false }
 cbor4ii = { version = "0.2.14", default-features = false, features = [
   "use_alloc",
 ] }
-scopeguard = "1.1.0"
+scopeguard = { version = "1.1.0", default-features = false }
 
 [dev-dependencies]
 test-strategy = "0.4"

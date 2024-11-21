@@ -1,7 +1,7 @@
 // Parts of this code is based on
 // https://github.com/serde-rs/json/blob/95f67a09399d546d9ecadeb747a845a77ff309b2/src/value/ser.rs
 use {
-	super::super::{ipld::Ipld, serde::SerdeError},
+	super::super::{serde::SerdeError, Ipld},
 	crate::cid::{serde::CID_SERDE_PRIVATE_IDENTIFIER, Cid},
 	alloc::{
 		borrow::ToOwned,

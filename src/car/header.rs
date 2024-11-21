@@ -3,7 +3,7 @@ use {
 	crate::{
 		alloc::{borrow::ToOwned, string::ToString},
 		cid::Cid,
-		ipld_serde,
+		dag,
 	},
 	alloc::vec::Vec,
 	serde::{Deserialize, Serialize},
@@ -22,8 +22,8 @@ impl CarHeader {
 	}
 
 	pub fn decode(buffer: &[u8]) -> Result<Self, Error> {
-		let header: CarHeaderV1 = ipld_serde::from_slice(buffer)
-			.map_err(|e| Error::Parsing(e.to_string()))?;
+		let header: CarHeaderV1 =
+			dag::from_slice(buffer).map_err(|e| Error::Parsing(e.to_string()))?;
 
 		if header.roots.is_empty() {
 			return Err(Error::Parsing("empty CAR file".to_owned()));
@@ -41,7 +41,7 @@ impl CarHeader {
 	pub fn encode(&self) -> Result<Vec<u8>, Error> {
 		match self {
 			CarHeader::V1(ref header) => {
-				let res = ipld_serde::to_vec(header).expect("vec");
+				let res = dag::to_vec(header).expect("vec");
 				Ok(res)
 			}
 		}
@@ -82,12 +82,7 @@ impl From<Vec<Cid>> for CarHeaderV1 {
 
 #[cfg(test)]
 mod tests {
-	use {
-		super::*,
-		crate::multihash::Multihash,
-		::alloc::*,
-		multihash_codetable::MultihashDigest,
-	};
+	use {super::*, crate::multihash::Multihash, ::alloc::*};
 
 	#[test]
 	fn symmetric_header_v1() {
@@ -97,11 +92,8 @@ mod tests {
 
 		let header = CarHeaderV1::from(vec![cid]);
 
-		let bytes = ipld_serde::to_vec(&header).unwrap();
+		let bytes = dag::to_vec(&header).unwrap();
 
-		assert_eq!(
-			ipld_serde::from_slice::<CarHeaderV1>(&bytes).unwrap(),
-			header
-		);
+		assert_eq!(dag::from_slice::<CarHeaderV1>(&bytes).unwrap(), header);
 	}
 }

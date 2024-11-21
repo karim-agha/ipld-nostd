@@ -8,10 +8,7 @@ mod extract_links;
 mod ser;
 
 use {
-	alloc::{
-		string::{String, ToString},
-		vec,
-	},
+	alloc::string::{String, ToString},
 	core::fmt,
 };
 pub use {
@@ -48,8 +45,8 @@ impl serde::ser::StdError for SerdeError {}
 mod tests {
 	use {
 		super::super::{
-			ipld::Ipld,
 			serde::{from_ipld, to_ipld},
+			Ipld,
 		},
 		crate::cid::{serde::CID_SERDE_PRIVATE_IDENTIFIER, Cid},
 		::alloc::{collections::BTreeMap, string::String, vec::Vec, *},

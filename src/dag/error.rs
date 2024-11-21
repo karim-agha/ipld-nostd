@@ -24,31 +24,12 @@ impl<E> From<E> for EncodeError<E> {
 	}
 }
 
-#[cfg(feature = "std")]
-impl<E: std::error::Error + 'static> ser::Error for EncodeError<E> {
-	fn custom<T: fmt::Display>(msg: T) -> Self {
-		EncodeError::Msg(msg.to_string())
-	}
-}
-
-#[cfg(not(feature = "std"))]
 impl<E: fmt::Debug> ser::Error for EncodeError<E> {
 	fn custom<T: fmt::Display>(msg: T) -> Self {
 		EncodeError::Msg(msg.to_string())
 	}
 }
 
-#[cfg(feature = "std")]
-impl<E: std::error::Error + 'static> std::error::Error for EncodeError<E> {
-	fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
-		match self {
-			EncodeError::Msg(_) => None,
-			EncodeError::Write(err) => Some(err),
-		}
-	}
-}
-
-#[cfg(not(feature = "std"))]
 impl<E: fmt::Debug> ser::StdError for EncodeError<E> {}
 
 impl<E: fmt::Debug> fmt::Display for EncodeError<E> {
@@ -132,32 +113,12 @@ impl<E> From<E> for DecodeError<E> {
 	}
 }
 
-#[cfg(feature = "std")]
-impl<E: std::error::Error + 'static> de::Error for DecodeError<E> {
-	fn custom<T: fmt::Display>(msg: T) -> Self {
-		DecodeError::Msg(msg.to_string())
-	}
-}
-
-#[cfg(not(feature = "std"))]
 impl<E: fmt::Debug> de::Error for DecodeError<E> {
 	fn custom<T: fmt::Display>(msg: T) -> Self {
 		DecodeError::Msg(msg.to_string())
 	}
 }
 
-#[cfg(feature = "std")]
-impl<E: std::error::Error + 'static> std::error::Error for DecodeError<E> {
-	fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
-		match self {
-			DecodeError::Msg(_) => None,
-			DecodeError::Read(err) => Some(err),
-			_ => None,
-		}
-	}
-}
-
-#[cfg(not(feature = "std"))]
 impl<E: fmt::Debug> ser::StdError for DecodeError<E> {}
 
 impl<E: fmt::Debug> fmt::Display for DecodeError<E> {
@@ -223,31 +184,14 @@ pub enum CodecError {
 	EncodeIo(EncodeError<core2::io::Error>),
 }
 
-#[cfg(feature = "std")]
-impl std::error::Error for CodecError {}
-
 impl From<DecodeError<Infallible>> for CodecError {
 	fn from(error: DecodeError<Infallible>) -> Self {
 		Self::Decode(error)
 	}
 }
 
-#[cfg(feature = "std")]
-impl From<DecodeError<std::io::Error>> for CodecError {
-	fn from(error: DecodeError<std::io::Error>) -> Self {
-		Self::DecodeIo(error)
-	}
-}
-
 impl From<EncodeError<TryReserveError>> for CodecError {
 	fn from(error: EncodeError<TryReserveError>) -> Self {
 		Self::Encode(error)
-	}
-}
-
-#[cfg(feature = "std")]
-impl From<EncodeError<std::io::Error>> for CodecError {
-	fn from(error: EncodeError<std::io::Error>) -> Self {
-		Self::EncodeIo(error)
 	}
 }
