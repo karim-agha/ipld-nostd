@@ -12,6 +12,7 @@ authors = [
 ]
 license = "Apache-2.0/MIT"
 rust-version = "1.70.0"
+description = "A bundle of CID, IPLD, CAR, Multihash and serde serialization for [no_std]"
 
 [lib]
 doctest = false
